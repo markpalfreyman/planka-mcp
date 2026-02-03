@@ -1,0 +1,44 @@
+{
+  "name": "@gogogadgetbytes/planka-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for PLANKA kanban boards",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "planka-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "planka",
+    "kanban",
+    "claude",
+    "ai-agent"
+  ],
+  "author": "gogogadgetbytes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gogogadgetbytes/planka-mcp.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.18"
+  }
+}
