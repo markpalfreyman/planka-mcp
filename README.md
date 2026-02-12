@@ -20,13 +20,7 @@ Forked from [gogogadgetbytes/planka-mcp](https://github.com/gogogadgetbytes/plan
 
 ## Installation
 
-Run directly from this repo:
-
-```bash
-npx github:markpalfreyman/planka-mcp
-```
-
-Or clone and build:
+Clone and build:
 
 ```bash
 git clone https://github.com/markpalfreyman/planka-mcp.git
@@ -45,16 +39,16 @@ npm run build
 | `PLANKA_AGENT_EMAIL` | Yes | Agent user email |
 | `PLANKA_AGENT_PASSWORD` | Yes | Agent user password |
 
-### Claude Desktop
+### Claude Desktop / Claude Code
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+Add to your MCP config:
 
 ```json
 {
   "mcpServers": {
     "planka": {
-      "command": "npx",
-      "args": ["github:markpalfreyman/planka-mcp"],
+      "command": "node",
+      "args": ["/path/to/planka-mcp/dist/index.js"],
       "env": {
         "PLANKA_BASE_URL": "https://planka.example.com",
         "PLANKA_AGENT_EMAIL": "agent@example.com",
@@ -65,33 +59,15 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-### Claude Code
+### MetaMCP (Docker volume mount)
 
-Add to `~/.claude.json`:
-
-```json
-{
-  "mcpServers": {
-    "planka": {
-      "command": "npx",
-      "args": ["github:markpalfreyman/planka-mcp"],
-      "env": {
-        "PLANKA_BASE_URL": "https://planka.example.com",
-        "PLANKA_AGENT_EMAIL": "agent@example.com",
-        "PLANKA_AGENT_PASSWORD": "your-password"
-      }
-    }
-  }
-}
-```
-
-### MetaMCP
-
-In MetaMCP server config, set:
-- **Type:** STDIO
-- **Command:** `npx`
-- **Args:** `github:markpalfreyman/planka-mcp`
-- **Env vars:** `PLANKA_BASE_URL`, `PLANKA_AGENT_EMAIL`, `PLANKA_AGENT_PASSWORD`
+1. Clone and build the repo on your server
+2. Add a volume mount in MetaMCP's docker-compose pointing to the built repo
+3. In MetaMCP server config, set:
+   - **Type:** STDIO
+   - **Command:** `node`
+   - **Args:** `/path/to/mounted/planka-mcp/dist/index.js`
+   - **Env vars:** `PLANKA_BASE_URL`, `PLANKA_AGENT_EMAIL`, `PLANKA_AGENT_PASSWORD`
 
 ## Available Tools
 
