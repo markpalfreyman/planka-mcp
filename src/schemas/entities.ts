@@ -128,12 +128,13 @@ export const TaskSchema = z.object({
 });
 export type Task = z.infer<typeof TaskSchema>;
 
-// Label schema
+// Label schema - uses z.string() for color to accept any Planka colour
+// (LabelColorSchema is only used for input validation when creating/updating)
 export const LabelSchema = z.object({
   id: z.string(),
   boardId: z.string(),
   name: z.string().nullable(),
-  color: LabelColorSchema,
+  color: z.string(),
   position: z.number(),
   createdAt: z.string(),
   updatedAt: z.string().nullable().optional(),

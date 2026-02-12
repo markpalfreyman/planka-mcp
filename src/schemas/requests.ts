@@ -104,7 +104,7 @@ export type UpdateCommentInput = z.input<typeof UpdateCommentSchema>;
 export const CreateListSchema = z.object({
   boardId: z.string(),
   name: z.string().min(1, "List name required"),
-  position: z.number().optional().default(65536),
+  position: z.number().optional(),
 });
 export type CreateListInput = z.input<typeof CreateListSchema>;
 

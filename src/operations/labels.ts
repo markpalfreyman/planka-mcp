@@ -98,9 +98,15 @@ export async function removeLabelFromCard(
     return;
   }
 
-  await plankaClient.delete(
-    `/api/cards/${cardId}/card-labels/${cardLabel.id}`
-  );
+  // Try the direct card-labels endpoint first, fall back to nested endpoint
+  try {
+    await plankaClient.delete(`/api/card-labels/${cardLabel.id}`);
+  } catch {
+    // Fall back to nested endpoint if direct fails
+    await plankaClient.delete(
+      `/api/cards/${cardId}/card-labels/${cardLabel.id}`
+    );
+  }
 }
 
 /**

@@ -17,12 +17,16 @@ import {
 export async function createList(input: CreateListInput): Promise<List> {
   const validated = CreateListSchema.parse(input);
 
+  const body: Record<string, unknown> = {
+    name: validated.name,
+  };
+  if (validated.position !== undefined) {
+    body.position = validated.position;
+  }
+
   const response = await plankaClient.post<unknown>(
     `/api/boards/${validated.boardId}/lists`,
-    {
-      name: validated.name,
-      position: validated.position,
-    }
+    body
   );
 
   const parsed = ListResponse.parse(response);
