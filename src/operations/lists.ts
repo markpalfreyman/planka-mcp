@@ -20,6 +20,7 @@ export async function createList(input: CreateListInput): Promise<List> {
   const body: Record<string, unknown> = {
     name: validated.name,
     position: validated.position ?? 65536,
+    type: validated.type,
   };
 
   const response = await plankaClient.post<unknown>(
