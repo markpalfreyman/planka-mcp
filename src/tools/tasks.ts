@@ -27,11 +27,17 @@ export const createTasksTool = {
     },
     required: ["cardId", "tasks"],
   },
-  handler: async (params: { cardId: string; tasks: string[] }) => {
+  handler: async (params: { cardId: string; tasks: string[] | string }) => {
     try {
+      // MetaMCP/Letta can pass arrays as JSON strings — handle both
+      const tasksArray: string[] =
+        typeof params.tasks === "string"
+          ? JSON.parse(params.tasks)
+          : params.tasks;
+
       const tasks = await createTasks({
         cardId: params.cardId,
-        tasks: params.tasks.map((name) => ({ name })),
+        tasks: tasksArray.map((name) => ({ name })),
       });
 
       return {

@@ -19,10 +19,8 @@ export async function createList(input: CreateListInput): Promise<List> {
 
   const body: Record<string, unknown> = {
     name: validated.name,
+    position: validated.position ?? 65536,
   };
-  if (validated.position !== undefined) {
-    body.position = validated.position;
-  }
 
   const response = await plankaClient.post<unknown>(
     `/api/boards/${validated.boardId}/lists`,
