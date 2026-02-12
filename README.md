@@ -1,24 +1,38 @@
-# PLANKA MCP Server
+# PLANKA MCP Server (Fork)
 
 A Model Context Protocol (MCP) server for [PLANKA](https://planka.app) kanban boards, purpose-built for Claude and other AI agents.
+
+Forked from [gogogadgetbytes/planka-mcp](https://github.com/gogogadgetbytes/planka-mcp) with bug fixes and security patches.
+
+## Changes from upstream
+
+- **Fix: Board reads crash on unknown label colours** — Response parsing now accepts any colour string instead of crashing on colours not in the hardcoded enum (e.g. "summer-sky")
+- **Fix: Remove label from card 404** — Try direct `/api/card-labels/{id}` endpoint with fallback to nested endpoint
+- **Fix: Create list fails with "1 missing or invalid parameter"** — Don't send position unless explicitly provided
+- **Security: MCP SDK updated** — Patched cross-client data leak vulnerability (GHSA-345p-7cg4-v4c7)
 
 ## Features
 
 - Full PLANKA 2.0 API support
 - Type-safe with Zod validation
-- Optimized for agent workflows (combined operations, sensible defaults)
+- Optimised for agent workflows (combined operations, sensible defaults)
 - 13 tools covering cards, tasks, labels, comments, and lists
 
 ## Installation
 
+Run directly from this repo:
+
 ```bash
-npm install @gogogadgetbytes/planka-mcp
+npx github:markpalfreyman/planka-mcp
 ```
 
-Or run directly:
+Or clone and build:
 
 ```bash
-npx @gogogadgetbytes/planka-mcp
+git clone https://github.com/markpalfreyman/planka-mcp.git
+cd planka-mcp
+npm install
+npm run build
 ```
 
 ## Configuration
@@ -40,7 +54,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "planka": {
       "command": "npx",
-      "args": ["@gogogadgetbytes/planka-mcp"],
+      "args": ["github:markpalfreyman/planka-mcp"],
       "env": {
         "PLANKA_BASE_URL": "https://planka.example.com",
         "PLANKA_AGENT_EMAIL": "agent@example.com",
@@ -60,7 +74,7 @@ Add to `~/.claude.json`:
   "mcpServers": {
     "planka": {
       "command": "npx",
-      "args": ["@gogogadgetbytes/planka-mcp"],
+      "args": ["github:markpalfreyman/planka-mcp"],
       "env": {
         "PLANKA_BASE_URL": "https://planka.example.com",
         "PLANKA_AGENT_EMAIL": "agent@example.com",
@@ -70,6 +84,14 @@ Add to `~/.claude.json`:
   }
 }
 ```
+
+### MetaMCP
+
+In MetaMCP server config, set:
+- **Type:** STDIO
+- **Command:** `npx`
+- **Args:** `github:markpalfreyman/planka-mcp`
+- **Env vars:** `PLANKA_BASE_URL`, `PLANKA_AGENT_EMAIL`, `PLANKA_AGENT_PASSWORD`
 
 ## Available Tools
 
@@ -118,29 +140,6 @@ Add to `~/.claude.json`:
 |------|-------------|
 | `planka_manage_lists` | Create/update/delete lists |
 
-## Usage Examples
-
-### Get board structure
-
-```
-Use planka_get_structure to see all projects and boards
-```
-
-### Create a card with tasks
-
-```
-Use planka_create_card with:
-- listId: "abc123"
-- name: "Implement feature X"
-- tasks: ["Research", "Design", "Implement", "Test"]
-```
-
-### Move card through workflow
-
-```
-Use planka_move_card to move card from "To Do" to "In Progress"
-```
-
 ## PLANKA 2.0 Compatibility
 
 This server is designed for PLANKA 2.0 and handles the API differences from 1.x:
@@ -152,26 +151,13 @@ This server is designed for PLANKA 2.0 and handles the API differences from 1.x:
 ## Development
 
 ```bash
-# Clone
-git clone https://github.com/gogogadgetbytes/planka-mcp.git
+git clone https://github.com/markpalfreyman/planka-mcp.git
 cd planka-mcp
-
-# Install
 npm install
-
-# Build
 npm run build
-
-# Test
 npm test
 ```
 
 ## License
 
 MIT
-
-## Links
-
-- [PLANKA](https://planka.app) - The kanban board
-- [MCP SDK](https://github.com/modelcontextprotocol/sdk) - Model Context Protocol
-- [Design Document](./DESIGN.md) - Technical design details
